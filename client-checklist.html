@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vedik Farms App - Frontend vs Backend Checklist</title>
+    <style>
+      :root {
+        --bg: #f5f8f3;
+        --panel: #ffffff;
+        --panel-alt: #f1f7ee;
+        --primary: #1f6f3e;
+        --primary-dark: #164d2d;
+        --accent: #d9f2d5;
+        --text: #1a1f1a;
+        --muted: #58635a;
+        --border: #dfe8df;
+        --warning: #c9772b;
+        --danger: #b53434;
+        --success: #2f8d52;
+        --shadow: 0 10px 24px rgba(17, 30, 20, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #f8fbf7 0%, #edf5ee 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, var(--primary) 0%, #2d8c56 100%);
+        color: white;
+        border-radius: 22px;
+        padding: 36px 30px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+      }
+
+      .hero h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.1;
+      }
+
+      .hero .tagline {
+        margin: 0;
+        font-size: 1.05rem;
+        opacity: 0.95;
+        max-width: 760px;
+      }
+
+      .summary-box {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow);
+        margin-bottom: 28px;
+      }
+
+      .summary-box h2 {
+        margin: 0 0 12px;
+        font-size: 1.3rem;
+      }
+
+      .summary-box p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .card-header {
+        background: var(--panel-alt);
+        border-bottom: 1px solid var(--border);
+        padding: 18px 20px;
+      }
+
+      .card-header h3 {
+        margin: 0;
+        font-size: 1.3rem;
+      }
+
+      .card-body {
+        padding: 18px 20px 22px;
+      }
+
+      .checklist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .checklist li {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+        line-height: 1.5;
+        color: var(--text);
+      }
+
+      .checklist li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 18px;
+        height: 18px;
+        background: var(--accent);
+        border: 1px solid #bfdec0;
+        color: var(--primary);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: bold;
+      }
+
+      .section-title {
+        margin: 34px 0 18px;
+        font-size: 1.8rem;
+      }
+
+      .status-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .status-pill {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: 1px solid transparent;
+      }
+
+      .status-ready {
+        background: #e7f7ee;
+        color: var(--success);
+        border-color: #cfead9;
+      }
+
+      .status-needed {
+        background: #fff3e8;
+        color: var(--warning);
+        border-color: #f1d8b4;
+      }
+
+      .status-blocked {
+        background: #fdecec;
+        color: var(--danger);
+        border-color: #f1c7c7;
+      }
+
+      .footer-note {
+        margin-top: 38px;
+        background: #1d2d22;
+        color: #edf9f0;
+        border-radius: 16px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .footer-note p {
+        margin: 0;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 640px) {
+        .container { padding-left: 14px; padding-right: 14px; }
+        .hero { padding: 26px 20px; }
+        .card-header, .card-body { padding-left: 16px; padding-right: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="hero">
+        <h1>Vedik Farms App</h1>
+        <p class="tagline">
+          Frontend vs Backend Checklist for Client Review and Product Roadmap
+        </p>
+      </header>
+
+      <section class="summary-box">
+        <h2>Project Snapshot</h2>
+        <p>
+          The current project shows a polished Android app MVP for a wellness-focused grocery and dairy brand.
+          The frontend experience and product concept are already well developed. However, the system still needs a real backend,
+          database, deployment pipeline, and production security measures before it can be launched for real users.
+        </p>
+      </section>
+
+      <h2 class="section-title">Frontend Needs Work</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">
+            <h3>Core Frontend Gaps</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Real API integration instead of mock data</li>
+              <li>User login/signup screens connected to backend</li>
+              <li>Product catalog from server</li>
+              <li>Cart checkout flow with backend validation and order creation</li>
+              <li>Real subscription management</li>
+              <li>Real order tracking status from backend</li>
+              <li>User profile update workflows</li>
+              <li>Admin/product management screens</li>
+              <li>Payment UI integration (Razorpay / Stripe / UPI)</li>
+              <li>Push notifications / order status alerts</li>
+              <li>Better error handling, loading states, empty states</li>
+              <li>Production-ready design for real marketplace flows</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Frontend Status</h3>
+          </div>
+          <div class="card-body">
+            <div class="status-line">
+              <span class="status-pill status-ready">UI / UX Prototype: Ready</span>
+              <span class="status-pill status-needed">API Integration: Needed</span>
+              <span class="status-pill status-blocked">Production Launch: Blocked</span>
+            </div>
+            <ul class="checklist" style="margin-top: 18px;">
+              <li>Basic screens and flows already exist</li>
+              <li>Core product experience is visible</li>
+              <li>Live data layer is still missing</li>
+              <li>Production app quality needs additional QA and polish</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Needed Backend Modules</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">
+            <h3>Authentication & User Management</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Signup / login</li>
+              <li>OTP verification</li>
+              <li>Password reset</li>
+              <li>Session / auth tokens</li>
+              <li>Profile and address management</li>
+              <li>Role-based access control</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Product & Inventory Management</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Catalog CRUD</li>
+              <li>Pricing</li>
+              <li>Inventory</li>
+              <li>Stock availability</li>
+              <li>Categories</li>
+              <li>Featured / bestseller controls</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Cart, Checkout & Orders</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Add / remove / update cart</li>
+              <li>Apply coupon / discount</li>
+              <li>Order creation</li>
+              <li>Shipping charges / delivery fees</li>
+              <li>Order status management</li>
+              <li>Cancellation / refund handling</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Subscriptions</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Recurring delivery plans</li>
+              <li>Subscription renewals</li>
+              <li>Skip delivery logic</li>
+              <li>Billing cycle management</li>
+              <li>Pause / resume logic</li>
+              <li>Renewal reminders</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Delivery & Pincode Logic</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Serviceable zones</li>
+              <li>Delivery time slots</li>
+              <li>Area validation</li>
+              <li>Local route support</li>
+              <li>Delivery exceptions handling</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Order Tracking</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Real order status updates</li>
+              <li>Delivery agent assignment</li>
+              <li>Route status</li>
+              <li>Current location / ETA support</li>
+              <li>Customer-facing tracking</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Payments</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Payment capture</li>
+              <li>Refund handling</li>
+              <li>Webhook verification</li>
+              <li>Secure server-side validation</li>
+              <li>Multiple payment methods</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Admin Panel & Operations</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Manage products</li>
+              <li>Manage orders</li>
+              <li>Manage subscriptions</li>
+              <li>View customers</li>
+              <li>Sales reporting</li>
+              <li>Operational dashboards</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Notifications</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Email</li>
+              <li>SMS</li>
+              <li>Push notifications</li>
+              <li>Order updates</li>
+              <li>Subscription reminders</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>AI Assistant Backend</h3>
+          </div>
+          <div class="card-body">
+            <ul class="checklist">
+              <li>Secure API key storage</li>
+              <li>Rate limiting</li>
+              <li>User prompt logs</li>
+              <li>Prompt moderation</li>
+              <li>Business rules enforcement</li>
+              <li>Privacy protection</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Database Requirements</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Core Data Entities</h3>
+        </div>
+        <div class="card-body">
+          <ul class="checklist">
+            <li>Users</li>
+            <li>Products</li>
+            <li>Orders</li>
+            <li>Cart</li>
+            <li>Subscriptions</li>
+            <li>Deliveries</li>
+            <li>Inventory</li>
+            <li>Pincode / zone mapping</li>
+            <li>Payment logs</li>
+            <li>AI logs</li>
+            <li>Admin users</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="section-title">DevOps / Deployment Needs Work</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Production Setup</h3>
+        </div>
+        <div class="card-body">
+          <ul class="checklist">
+            <li>Release keystore for Android</li>
+            <li>Production signing configuration</li>
+            <li>versionCode / versionName</li>
+            <li>Play Store listing assets</li>
+            <li>Privacy policy</li>
+            <li>Terms and conditions</li>
+            <li>App icon / splash screen / app store assets</li>
+            <li>Testing builds</li>
+            <li>Firebase or backend hosting configuration</li>
+            <li>CI/CD pipeline</li>
+            <li>Staging and production environments</li>
+            <li>Environment variables and secrets management</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="section-title">Security & Compliance Needs Work</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Security Checklist</h3>
+        </div>
+        <div class="card-body">
+          <ul class="checklist">
+            <li>Do not expose API keys in app code</li>
+            <li>Backend must secure all business logic</li>
+            <li>Payment flows must use secure server-side validation</li>
+            <li>User data privacy policy needed</li>
+            <li>Consent flows for data use</li>
+            <li>GDPR / privacy compliance review</li>
+            <li>Anti-abuse controls for AI assistant</li>
+            <li>Role-based admin access</li>
+            <li>Rate limiting / request validation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        <p>
+          <strong>Assessment:</strong> The app is a strong MVP/prototype for a health and dairy commerce brand, but it still requires a production-grade backend,
+          database, payment system, deployment pipeline, and security setup before it can be launched to real customers.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
